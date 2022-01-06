@@ -135,6 +135,7 @@ def main(args):
         'GPUs used'] else 'cpu'
 
     paddle.set_device(place)
+    # print(place, args)
     if not args.cfg:
         raise RuntimeError('No configuration file specified.')
 
@@ -195,4 +196,6 @@ def main(args):
 
 if __name__ == '__main__':
     args = parse_args()
+    print(args)
+    # args.cfg = "/home/p/u/puzhao/PaddleSeg/cfg/wildfire_unet_s1s2.yml"
     main(args)

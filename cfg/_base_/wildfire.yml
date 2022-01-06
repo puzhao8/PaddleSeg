@@ -1,9 +1,9 @@
-batch_size: 2
+batch_size: 8
 iters: 80000
 
 train_dataset:
-  type: Cityscapes
-  dataset_root: data/cityscapes
+  type: wildfire
+  dataset_root: /home/p/u/puzhao/wildfire-s1s2-dataset-ca-tiles-V0
   # transforms:
   #   - type: ResizeStepScaling
   #     min_scale_factor: 0.5
@@ -20,8 +20,8 @@ train_dataset:
   mode: train
 
 val_dataset:
-  type: Cityscapes
-  dataset_root: data/cityscapes
+  type: wildfire
+  dataset_root: /home/p/u/puzhao/wildfire-s1s2-dataset-ca-tiles-V0
   transforms:
     - type: Normalize
   mode: val

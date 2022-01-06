@@ -1,0 +1,10 @@
+_base_: '../_base_/wildfire.yml'
+
+batch_size: 32
+iters: 1000 #160000
+
+model:
+  type: UNet
+  num_classes: 2
+  use_deconv: False
+  pretrained: Null

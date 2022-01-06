@@ -7,14 +7,14 @@
 #   cd PaddleSeg
 #   bash benchmark/run_all.sh
 
-pip install -r requirements.txt
+# pip install -r requirements.txt
 
-# Download test dataset and save it to PaddleSeg/data
-# It automatic downloads the pretrained models saved in ~/.paddleseg
-mkdir -p data
-wget https://paddleseg.bj.bcebos.com/dataset/cityscapes_30imgs.tar.gz \
-    -O data/cityscapes_30imgs.tar.gz
-tar -zxf data/cityscapes_30imgs.tar.gz -C data/
+# # Download test dataset and save it to PaddleSeg/data
+# # It automatic downloads the pretrained models saved in ~/.paddleseg
+# mkdir -p data
+# wget https://paddleseg.bj.bcebos.com/dataset/cityscapes_30imgs.tar.gz \
+#     -O data/cityscapes_30imgs.tar.gz
+# tar -zxf data/cityscapes_30imgs.tar.gz -C data/
 
 model_name_list=(fastscnn segformer_b0 ocrnet_hrnetw48)
 fp_item_list=(fp32)     # set fp32 or fp16, segformer_b0 doesn't support fp16 with Paddle2.1.2
@@ -28,18 +28,19 @@ for model_name in ${model_name_list[@]}; do
             do
             echo "index is speed, 1gpus, begin, ${model_name}"
             run_mode=sp
-            CUDA_VISIBLE_DEVICES=0 bash benchmark/run_benchmark.sh ${run_mode} ${bs_item} ${fp_item} \
+            # CUDA_VISIBLE_DEVICES=0 
+            sbatch benchmark/run_benchmark_V2.sh ${run_mode} ${bs_item} ${fp_item} \
                 ${max_iters} ${model_name} ${num_workers}
             sleep 60
 
-            echo "index is speed, 8gpus, run_mode is multi_process, begin, ${model_name}"
-            run_mode=mp
-            CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash benchmark/run_benchmark.sh ${run_mode} ${bs_item} ${fp_item} \
-                ${max_iters} ${model_name} ${num_workers}
-            sleep 60
+            # echo "index is speed, 8gpus, run_mode is multi_process, begin, ${model_name}"
+            # run_mode=mp
+            # CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash benchmark/run_benchmarksh ${run_mode} ${bs_item} ${fp_item} \
+            #     ${max_iters} ${model_name} ${num_workers}
+            # sleep 60
             done
       done
 done
 
-rm -rf data/*
+# rm -rf data/*
 # rm -rf ~/.paddleseg

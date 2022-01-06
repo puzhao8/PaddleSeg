@@ -1,0 +1,146 @@
+Namespace(batch_size=2, cfg='benchmark/configs/segformer_b0.yml', data_format='NCHW', do_eval=False, fp16=False, iters=500, keep_checkpoint_max=5, learning_rate=None, log_iters=10, num_workers=5, profiler_options=None, resume_model=None, save_dir='./output', save_interval=1000, seed=None, use_vdl=False)
+2022-01-06 11:05:16 [INFO]	
+------------Environment Information-------------
+platform: Linux-4.15.0-163-generic-x86_64-with-debian-buster-sid
+Python: 3.7.12 | packaged by conda-forge | (default, Oct 26 2021, 06:08:53) [GCC 9.4.0]
+Paddle compiled with cuda: True
+NVCC: Build cuda_11.4.r11.4/compiler.30300941_0
+cudnn: 8.1
+GPUs used: 1
+CUDA_VISIBLE_DEVICES: 0
+GPU: ['GPU 0: NVIDIA GeForce']
+GCC: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+PaddlePaddle: 2.2.1
+OpenCV: 4.5.5
+------------------------------------------------
+2022-01-06 11:05:16 [INFO]	
+---------------Config Information---------------
+batch_size: 2
+iters: 500
+loss:
+  coef:
+  - 1
+  types:
+  - ignore_index: 255
+    type: CrossEntropyLoss
+lr_scheduler:
+  end_lr: 0
+  learning_rate: 6.0e-05
+  power: 1
+  type: PolynomialDecay
+model:
+  num_classes: 19
+  pretrained: https://bj.bcebos.com/paddleseg/dygraph/mix_vision_transformer_b0.tar.gz
+  type: SegFormer_B0
+optimizer:
+  beta1: 0.9
+  beta2: 0.999
+  type: AdamW
+  weight_decay: 0.01
+train_dataset:
+  dataset_root: data/cityscapes_30imgs
+  mode: train
+  transforms:
+  - max_scale_factor: 2.0
+    min_scale_factor: 0.5
+    scale_step_size: 0.25
+    type: ResizeStepScaling
+  - crop_size:
+    - 1024
+    - 1024
+    type: RandomPaddingCrop
+  - type: RandomHorizontalFlip
+  - brightness_range: 0.4
+    contrast_range: 0.4
+    saturation_range: 0.4
+    type: RandomDistort
+  - type: Normalize
+  type: Cityscapes
+------------------------------------------------
+W0106 11:05:16.636572 14161 device_context.cc:447] Please NOTE: device: 0, GPU Compute Capability: 8.6, Driver API Version: 11.4, Runtime API Version: 11.2
+W0106 11:05:16.636600 14161 device_context.cc:465] device: 0, cuDNN Version: 8.1.
+2022-01-06 11:05:19 [INFO]	Loading pretrained model from https://bj.bcebos.com/paddleseg/dygraph/mix_vision_transformer_b0.tar.gz
+2022-01-06 11:05:19 [WARNING]	linear_c4.proj.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c4.proj.bias is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c3.proj.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c3.proj.bias is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c2.proj.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c2.proj.bias is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c1.proj.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_c1.proj.bias is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_fuse._conv.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_fuse._batch_norm.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_fuse._batch_norm.bias is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_fuse._batch_norm._mean is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_fuse._batch_norm._variance is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_pred.weight is not in pretrained model
+2022-01-06 11:05:19 [WARNING]	linear_pred.bias is not in pretrained model
+2022-01-06 11:05:19 [INFO]	There are 176/191 variables loaded into SegFormer.
+/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/nn/layer/norm.py:653: UserWarning: When training, we now always track global mean and variance.
+  "When training, we now always track global mean and variance.")
+/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/fluid/dygraph/math_op_patch.py:253: UserWarning: The dtype of left and right variables are not the same, left dtype is paddle.float32, but right dtype is paddle.int64, the right dtype will convert to paddle.float32
+  format(lhs_dtype, rhs_dtype, lhs_dtype))
+2022-01-06 11:05:24 [INFO]	[TRAIN] epoch: 1, iter: 10/500, loss: 2.9166, lr: 0.000059, batch_cost: 0.4429, reader_cost: 0.11126, ips: 4.5156 samples/sec | ETA 00:03:37
+2022-01-06 11:05:27 [INFO]	[TRAIN] epoch: 2, iter: 20/500, loss: 2.0693, lr: 0.000058, batch_cost: 0.2852, reader_cost: 0.08383, ips: 7.0138 samples/sec | ETA 00:02:16
+2022-01-06 11:05:29 [INFO]	[TRAIN] epoch: 2, iter: 30/500, loss: 1.7721, lr: 0.000057, batch_cost: 0.1941, reader_cost: 0.00022, ips: 10.3062 samples/sec | ETA 00:01:31
+2022-01-06 11:05:32 [INFO]	[TRAIN] epoch: 3, iter: 40/500, loss: 1.6866, lr: 0.000055, batch_cost: 0.2924, reader_cost: 0.08893, ips: 6.8392 samples/sec | ETA 00:02:14
+2022-01-06 11:05:34 [INFO]	[TRAIN] epoch: 4, iter: 50/500, loss: 1.5284, lr: 0.000054, batch_cost: 0.2959, reader_cost: 0.09207, ips: 6.7597 samples/sec | ETA 00:02:13
+2022-01-06 11:05:36 [INFO]	[TRAIN] epoch: 4, iter: 60/500, loss: 1.3387, lr: 0.000053, batch_cost: 0.1983, reader_cost: 0.00080, ips: 10.0874 samples/sec | ETA 00:01:27
+2022-01-06 11:05:39 [INFO]	[TRAIN] epoch: 5, iter: 70/500, loss: 1.1673, lr: 0.000052, batch_cost: 0.2793, reader_cost: 0.07590, ips: 7.1605 samples/sec | ETA 00:02:00
+2022-01-06 11:05:42 [INFO]	[TRAIN] epoch: 6, iter: 80/500, loss: 1.2681, lr: 0.000051, batch_cost: 0.2917, reader_cost: 0.08978, ips: 6.8574 samples/sec | ETA 00:02:02
+2022-01-06 11:05:44 [INFO]	[TRAIN] epoch: 6, iter: 90/500, loss: 1.0155, lr: 0.000049, batch_cost: 0.1953, reader_cost: 0.00014, ips: 10.2407 samples/sec | ETA 00:01:20
+2022-01-06 11:05:47 [INFO]	[TRAIN] epoch: 7, iter: 100/500, loss: 0.8553, lr: 0.000048, batch_cost: 0.2996, reader_cost: 0.10028, ips: 6.6763 samples/sec | ETA 00:01:59
+2022-01-06 11:05:50 [INFO]	[TRAIN] epoch: 8, iter: 110/500, loss: 0.7612, lr: 0.000047, batch_cost: 0.2889, reader_cost: 0.09184, ips: 6.9219 samples/sec | ETA 00:01:52
+2022-01-06 11:05:52 [INFO]	[TRAIN] epoch: 8, iter: 120/500, loss: 0.8850, lr: 0.000046, batch_cost: 0.1931, reader_cost: 0.00025, ips: 10.3555 samples/sec | ETA 00:01:13
+2022-01-06 11:05:55 [INFO]	[TRAIN] epoch: 9, iter: 130/500, loss: 0.9848, lr: 0.000045, batch_cost: 0.2959, reader_cost: 0.09039, ips: 6.7598 samples/sec | ETA 00:01:49
+2022-01-06 11:05:58 [INFO]	[TRAIN] epoch: 10, iter: 140/500, loss: 1.0466, lr: 0.000043, batch_cost: 0.2907, reader_cost: 0.09010, ips: 6.8792 samples/sec | ETA 00:01:44
+2022-01-06 11:06:00 [INFO]	[TRAIN] epoch: 10, iter: 150/500, loss: 0.7205, lr: 0.000042, batch_cost: 0.1957, reader_cost: 0.00065, ips: 10.2183 samples/sec | ETA 00:01:08
+2022-01-06 11:06:03 [INFO]	[TRAIN] epoch: 11, iter: 160/500, loss: 0.7922, lr: 0.000041, batch_cost: 0.2929, reader_cost: 0.08484, ips: 6.8276 samples/sec | ETA 00:01:39
+2022-01-06 11:06:06 [INFO]	[TRAIN] epoch: 12, iter: 170/500, loss: 0.7576, lr: 0.000040, batch_cost: 0.2815, reader_cost: 0.08181, ips: 7.1050 samples/sec | ETA 00:01:32
+2022-01-06 11:06:07 [INFO]	[TRAIN] epoch: 12, iter: 180/500, loss: 0.7584, lr: 0.000039, batch_cost: 0.1964, reader_cost: 0.00013, ips: 10.1842 samples/sec | ETA 00:01:02
+2022-01-06 11:06:10 [INFO]	[TRAIN] epoch: 13, iter: 190/500, loss: 0.8704, lr: 0.000037, batch_cost: 0.2976, reader_cost: 0.09072, ips: 6.7207 samples/sec | ETA 00:01:32
+2022-01-06 11:06:13 [INFO]	[TRAIN] epoch: 14, iter: 200/500, loss: 0.6672, lr: 0.000036, batch_cost: 0.2971, reader_cost: 0.09643, ips: 6.7318 samples/sec | ETA 00:01:29
+2022-01-06 11:06:15 [INFO]	[TRAIN] epoch: 14, iter: 210/500, loss: 0.7523, lr: 0.000035, batch_cost: 0.1941, reader_cost: 0.00028, ips: 10.3017 samples/sec | ETA 00:00:56
+2022-01-06 11:06:18 [INFO]	[TRAIN] epoch: 15, iter: 220/500, loss: 0.6778, lr: 0.000034, batch_cost: 0.3002, reader_cost: 0.09378, ips: 6.6629 samples/sec | ETA 00:01:24
+2022-01-06 11:06:21 [INFO]	[TRAIN] epoch: 16, iter: 230/500, loss: 0.6632, lr: 0.000033, batch_cost: 0.2879, reader_cost: 0.08576, ips: 6.9461 samples/sec | ETA 00:01:17
+2022-01-06 11:06:23 [INFO]	[TRAIN] epoch: 16, iter: 240/500, loss: 0.7749, lr: 0.000031, batch_cost: 0.1973, reader_cost: 0.00056, ips: 10.1348 samples/sec | ETA 00:00:51
+2022-01-06 11:06:26 [INFO]	[TRAIN] epoch: 17, iter: 250/500, loss: 0.6756, lr: 0.000030, batch_cost: 0.2879, reader_cost: 0.08236, ips: 6.9477 samples/sec | ETA 00:01:11
+2022-01-06 11:06:29 [INFO]	[TRAIN] epoch: 18, iter: 260/500, loss: 0.7190, lr: 0.000029, batch_cost: 0.2826, reader_cost: 0.08150, ips: 7.0783 samples/sec | ETA 00:01:07
+2022-01-06 11:06:31 [INFO]	[TRAIN] epoch: 18, iter: 270/500, loss: 0.7746, lr: 0.000028, batch_cost: 0.1966, reader_cost: 0.00025, ips: 10.1725 samples/sec | ETA 00:00:45
+2022-01-06 11:06:34 [INFO]	[TRAIN] epoch: 19, iter: 280/500, loss: 0.6177, lr: 0.000027, batch_cost: 0.3063, reader_cost: 0.10164, ips: 6.5305 samples/sec | ETA 00:01:07
+2022-01-06 11:06:37 [INFO]	[TRAIN] epoch: 20, iter: 290/500, loss: 0.7213, lr: 0.000025, batch_cost: 0.3150, reader_cost: 0.11284, ips: 6.3497 samples/sec | ETA 00:01:06
+2022-01-06 11:06:39 [INFO]	[TRAIN] epoch: 20, iter: 300/500, loss: 0.7389, lr: 0.000024, batch_cost: 0.1984, reader_cost: 0.00012, ips: 10.0805 samples/sec | ETA 00:00:39
+2022-01-06 11:06:42 [INFO]	[TRAIN] epoch: 21, iter: 310/500, loss: 0.7720, lr: 0.000023, batch_cost: 0.2964, reader_cost: 0.08961, ips: 6.7483 samples/sec | ETA 00:00:56
+2022-01-06 11:06:45 [INFO]	[TRAIN] epoch: 22, iter: 320/500, loss: 0.8592, lr: 0.000022, batch_cost: 0.3154, reader_cost: 0.11489, ips: 6.3415 samples/sec | ETA 00:00:56
+2022-01-06 11:06:47 [INFO]	[TRAIN] epoch: 22, iter: 330/500, loss: 0.6175, lr: 0.000021, batch_cost: 0.1932, reader_cost: 0.00010, ips: 10.3527 samples/sec | ETA 00:00:32
+2022-01-06 11:06:50 [INFO]	[TRAIN] epoch: 23, iter: 340/500, loss: 0.5999, lr: 0.000019, batch_cost: 0.3046, reader_cost: 0.09581, ips: 6.5652 samples/sec | ETA 00:00:48
+2022-01-06 11:06:53 [INFO]	[TRAIN] epoch: 24, iter: 350/500, loss: 0.9393, lr: 0.000018, batch_cost: 0.3053, reader_cost: 0.10124, ips: 6.5508 samples/sec | ETA 00:00:45
+2022-01-06 11:06:55 [INFO]	[TRAIN] epoch: 24, iter: 360/500, loss: 0.6460, lr: 0.000017, batch_cost: 0.1947, reader_cost: 0.00024, ips: 10.2743 samples/sec | ETA 00:00:27
+2022-01-06 11:06:58 [INFO]	[TRAIN] epoch: 25, iter: 370/500, loss: 0.6075, lr: 0.000016, batch_cost: 0.3004, reader_cost: 0.09539, ips: 6.6584 samples/sec | ETA 00:00:39
+2022-01-06 11:07:01 [INFO]	[TRAIN] epoch: 26, iter: 380/500, loss: 0.6621, lr: 0.000015, batch_cost: 0.2840, reader_cost: 0.08465, ips: 7.0429 samples/sec | ETA 00:00:34
+2022-01-06 11:07:03 [INFO]	[TRAIN] epoch: 26, iter: 390/500, loss: 0.5549, lr: 0.000013, batch_cost: 0.1955, reader_cost: 0.00033, ips: 10.2321 samples/sec | ETA 00:00:21
+2022-01-06 11:07:06 [INFO]	[TRAIN] epoch: 27, iter: 400/500, loss: 0.5501, lr: 0.000012, batch_cost: 0.2941, reader_cost: 0.08969, ips: 6.8008 samples/sec | ETA 00:00:29
+2022-01-06 11:07:09 [INFO]	[TRAIN] epoch: 28, iter: 410/500, loss: 0.5502, lr: 0.000011, batch_cost: 0.2928, reader_cost: 0.08538, ips: 6.8299 samples/sec | ETA 00:00:26
+2022-01-06 11:07:11 [INFO]	[TRAIN] epoch: 28, iter: 420/500, loss: 0.5981, lr: 0.000010, batch_cost: 0.1968, reader_cost: 0.00070, ips: 10.1646 samples/sec | ETA 00:00:15
+2022-01-06 11:07:14 [INFO]	[TRAIN] epoch: 29, iter: 430/500, loss: 0.6517, lr: 0.000009, batch_cost: 0.2899, reader_cost: 0.08458, ips: 6.8985 samples/sec | ETA 00:00:20
+2022-01-06 11:07:17 [INFO]	[TRAIN] epoch: 30, iter: 440/500, loss: 0.5156, lr: 0.000007, batch_cost: 0.2999, reader_cost: 0.09723, ips: 6.6688 samples/sec | ETA 00:00:17
+2022-01-06 11:07:19 [INFO]	[TRAIN] epoch: 30, iter: 450/500, loss: 0.5713, lr: 0.000006, batch_cost: 0.1947, reader_cost: 0.00012, ips: 10.2698 samples/sec | ETA 00:00:09
+2022-01-06 11:07:22 [INFO]	[TRAIN] epoch: 31, iter: 460/500, loss: 0.6000, lr: 0.000005, batch_cost: 0.2929, reader_cost: 0.08997, ips: 6.8279 samples/sec | ETA 00:00:11
+2022-01-06 11:07:24 [INFO]	[TRAIN] epoch: 32, iter: 470/500, loss: 0.5303, lr: 0.000004, batch_cost: 0.2878, reader_cost: 0.08240, ips: 6.9484 samples/sec | ETA 00:00:08
+2022-01-06 11:07:26 [INFO]	[TRAIN] epoch: 32, iter: 480/500, loss: 0.5434, lr: 0.000003, batch_cost: 0.1971, reader_cost: 0.00070, ips: 10.1477 samples/sec | ETA 00:00:03
+2022-01-06 11:07:29 [INFO]	[TRAIN] epoch: 33, iter: 490/500, loss: 0.4801, lr: 0.000001, batch_cost: 0.2893, reader_cost: 0.08208, ips: 6.9130 samples/sec | ETA 00:00:02
+2022-01-06 11:07:32 [INFO]	[TRAIN] epoch: 34, iter: 500/500, loss: 0.6667, lr: 0.000000, batch_cost: 0.2842, reader_cost: 0.07812, ips: 7.0367 samples/sec | ETA 00:00:00
+<class 'paddle.nn.layer.conv.Conv2D'>'s flops has been counted
+Cannot find suitable count function for <class 'paddle.nn.layer.norm.LayerNorm'>. Treat it as zero FLOPs.
+<class 'paddle.nn.layer.common.Linear'>'s flops has been counted
+<class 'paddle.nn.layer.common.Dropout'>'s flops has been counted
+Cannot find suitable count function for <class 'paddleseg.models.backbones.transformer_utils.Identity'>. Treat it as zero FLOPs.
+Cannot find suitable count function for <class 'paddle.nn.layer.activation.GELU'>. Treat it as zero FLOPs.
+Cannot find suitable count function for <class 'paddleseg.models.backbones.transformer_utils.DropPath'>. Treat it as zero FLOPs.
+Cannot find suitable count function for <class 'paddle.nn.layer.common.Dropout2D'>. Treat it as zero FLOPs.
+<class 'paddle.nn.layer.norm.BatchNorm2D'>'s flops has been counted
+<class 'paddle.nn.layer.activation.ReLU'>'s flops has been counted
+/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/tensor/creation.py:130: DeprecationWarning: `np.object` is a deprecated alias for the builtin `object`. To silence this warning, use `object` by itself. Doing this will not modify any behavior and is safe. 
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  if data.dtype == np.object:
+Total Flops: 27264614400     Total Params: 3719539

@@ -1,3 +1,8 @@
+*.out
+*.err
+output/*
+data/*
+
 # Mac system
 .DS_Store
 

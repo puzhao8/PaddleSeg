@@ -1,0 +1,107 @@
+Namespace(batch_size=2, cfg='benchmark/configs/ocrnet_hrnetw48.yml', data_format='NCHW', do_eval=False, fp16=False, iters=500, keep_checkpoint_max=5, learning_rate=None, log_iters=10, num_workers=5, profiler_options=None, resume_model=None, save_dir='./output', save_interval=1000, seed=None, use_vdl=False)
+2022-01-06 11:06:16 [INFO]	
+------------Environment Information-------------
+platform: Linux-4.15.0-163-generic-x86_64-with-debian-buster-sid
+Python: 3.7.12 | packaged by conda-forge | (default, Oct 26 2021, 06:08:53) [GCC 9.4.0]
+Paddle compiled with cuda: True
+NVCC: Build cuda_11.4.r11.4/compiler.30300941_0
+cudnn: 8.1
+GPUs used: 1
+CUDA_VISIBLE_DEVICES: 0
+GPU: ['GPU 0: NVIDIA GeForce']
+GCC: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+PaddlePaddle: 2.2.1
+OpenCV: 4.5.5
+------------------------------------------------
+2022-01-06 11:06:16 [INFO]	
+---------------Config Information---------------
+batch_size: 2
+iters: 500
+loss:
+  coef:
+  - 1
+  - 0.4
+  types:
+  - ignore_index: 255
+    type: CrossEntropyLoss
+  - ignore_index: 255
+    type: CrossEntropyLoss
+lr_scheduler:
+  end_lr: 0
+  learning_rate: 0.01
+  power: 0.9
+  type: PolynomialDecay
+model:
+  backbone:
+    pretrained: https://bj.bcebos.com/paddleseg/dygraph/hrnet_w48_ssld.tar.gz
+    type: HRNet_W48
+  backbone_indices:
+  - 0
+  num_classes: 19
+  type: OCRNet
+optimizer:
+  momentum: 0.9
+  type: sgd
+  weight_decay: 4.0e-05
+train_dataset:
+  dataset_root: data/cityscapes_30imgs
+  mode: train
+  transforms:
+  - max_scale_factor: 2.0
+    min_scale_factor: 0.5
+    scale_step_size: 0.25
+    type: ResizeStepScaling
+  - crop_size:
+    - 1024
+    - 512
+    type: RandomPaddingCrop
+  - type: RandomHorizontalFlip
+  - brightness_range: 0.4
+    contrast_range: 0.4
+    saturation_range: 0.4
+    type: RandomDistort
+  - type: Normalize
+  type: Cityscapes
+------------------------------------------------
+W0106 11:06:16.690096 69314 device_context.cc:447] Please NOTE: device: 0, GPU Compute Capability: 8.6, Driver API Version: 11.4, Runtime API Version: 11.2
+W0106 11:06:16.690124 69314 device_context.cc:465] device: 0, cuDNN Version: 8.1.
+2022-01-06 11:06:19 [INFO]	Loading pretrained model from https://bj.bcebos.com/paddleseg/dygraph/hrnet_w48_ssld.tar.gz
+2022-01-06 11:06:22 [INFO]	There are 1525/1525 variables loaded into HRNet.
+/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/nn/layer/norm.py:653: UserWarning: When training, we now always track global mean and variance.
+  "When training, we now always track global mean and variance.")
+/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/fluid/dygraph/math_op_patch.py:253: UserWarning: The dtype of left and right variables are not the same, left dtype is paddle.float32, but right dtype is paddle.int64, the right dtype will convert to paddle.float32
+  format(lhs_dtype, rhs_dtype, lhs_dtype))
+Traceback (most recent call last):
+  File "train.py", line 201, in <module>
+    main(args)
+  File "train.py", line 194, in main
+    profiler_options=args.profiler_options)
+  File "/geoinfo_vol1/home/p/u/puzhao/PaddleSeg/paddleseg/core/train.py", line 191, in train
+    logits_list = model(images)
+  File "/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 914, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/geoinfo_vol1/home/p/u/puzhao/PaddleSeg/paddleseg/models/ocrnet.py", line 73, in forward
+    logit_list = self.head(feats)
+  File "/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 914, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/geoinfo_vol1/home/p/u/puzhao/PaddleSeg/paddleseg/models/ocrnet.py", line 136, in forward
+    logit = self.cls_head(ocr)
+  File "/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/fluid/dygraph/layers.py", line 914, in __call__
+    outputs = self.forward(*inputs, **kwargs)
+  File "/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/nn/layer/conv.py", line 677, in forward
+    use_cudnn=self._use_cudnn)
+  File "/geoinfo_vol1/home/p/u/puzhao/miniforge3/envs/paddle2/lib/python3.7/site-packages/paddle/nn/functional/conv.py", line 123, in _conv_nd
+    pre_bias = getattr(_C_ops, op_type)(x, weight, *attrs)
+SystemError: (Fatal) Operator conv2d raises an paddle::memory::allocation::BadAlloc exception.
+The exception content is
+:ResourceExhaustedError: 
+
+Out of memory error on GPU 0. Cannot allocate 133.040527MB memory on GPU 0, 9.719360GB memory has been allocated and available memory is only 65.437500MB.
+
+Please check whether there is any other process using GPU 0.
+1. If yes, please stop them, or start PaddlePaddle on another GPU.
+2. If no, please decrease the batch size of your model. 
+
+ (at /paddle/paddle/fluid/memory/allocation/cuda_allocator.cc:79)
+. (at /paddle/paddle/fluid/imperative/tracer.cc:221)
+
